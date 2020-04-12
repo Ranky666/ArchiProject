@@ -18,6 +18,11 @@ namespace ArchiProject.DAL.Repositories
         private readonly IMapper _mapper;
 
 
+
+     
+       
+
+
         public UserRepository(UserContext context, IMapper mapper)
         {
             db = context;
@@ -39,6 +44,18 @@ namespace ArchiProject.DAL.Repositories
             db.Users.Add(_mapper.Map<User>(dto));
             db.SaveChanges();
         }
+
+
+
+        //public List<ZipModelDTO> GetNotes()
+        //{
+        //    var models = db.Notes.ToList();
+        //    return _mapper.Map<List<ZipModelDTO>>(models);
+
+
+        //}
+
+
 
     }
 }

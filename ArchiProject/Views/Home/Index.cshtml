@@ -1,7 +1,7 @@
-﻿@model IEnumerable<User>
+﻿@model List<string>
 @{
-    ViewData["Title"] = "Ежедневник";
-    //   Layout = null;
+    ViewBag.Title = "Home Page";
+    int i = 0;
 }
 <!DOCTYPE html>
 
@@ -17,7 +17,7 @@
     </style>
 
 
-  
+
 
     <p></p>
     <a href="~/Home/Zip" class=btn-floating btn-large waves-effect waves-light red"><i class="material-icons">archive</i></a>
@@ -25,16 +25,19 @@
 
     <form asp-controller="Home" asp-action="Index">
     </form>
-    <form class="col s6">
-        <div class="row">
-            <div class="input-field col s6">
-                <input type="text" name="SearchString" type="submit" class="waves-effect waves-light btn-small" />  <i class="material-icons">search</i>
+    <form method="post">
+        @foreach (var filename in Model) 
+        {
+        <p>
+            <input type="checkbox" name="FilesforArchiving[@i].Selected" value="true" />
+            <input type="hidden" name="FilesforArchiving[@i].Selected" value="false" />
+            <input type="hidden" name="FilesforArchiving[@i].Name" value="@filename" />
+            @filename
+        </p>
 
-                <label for="Search">Искать</label>
-
-
-            </div>
-        </div>
+            i++;
+        }
+        <input type="submit" value="Загрузить" />
     </form>
 
 

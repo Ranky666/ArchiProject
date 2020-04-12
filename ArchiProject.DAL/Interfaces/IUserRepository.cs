@@ -8,6 +8,8 @@ namespace ArchiProject.DAL.Interfaces
    public interface IUserRepository
     {
 
+        //List<NoteDTO> GetNotes();
+
         UserDTO FindUser(UserDTO dto);
 
         UserDTO FindUserByEmail(UserDTO dto);

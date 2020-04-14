@@ -20,13 +20,7 @@ namespace ArchiProject.Controllers
 
             List<string> files = Directory.GetFiles("D:/FilesforArchiving").Select(Name => Path.GetFileName(Name)).ToList();
 
-          
-
-
-
-
             return View(files);
-
 
 
         }

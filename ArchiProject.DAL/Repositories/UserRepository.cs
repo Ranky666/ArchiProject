@@ -17,12 +17,6 @@ namespace ArchiProject.DAL.Repositories
 
         private readonly IMapper _mapper;
 
-
-
-     
-       
-
-
         public UserRepository(UserContext context, IMapper mapper)
         {
             db = context;

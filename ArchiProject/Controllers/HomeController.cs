@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using ArchiProject.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -10,38 +11,28 @@ namespace ArchiProject.Controllers
     [Authorize]
     public class HomeController : Controller
     {
+        
 
-       
-
-
-        //[AllowAnonymous]
+        [AllowAnonymous]
         public IActionResult Index()
         {
 
 
-            List<string> files = Directory.GetFiles("D:/FilesforArchiving", " *doc, pdf, jpg ", SearchOption.AllDirectories).ToList();
+            List<string> files = Directory.GetFiles("D:/FilesforArchiving").Select(Name => Path.GetFileName(Name)).ToList();
 
-  
+          
+
+
 
 
             return View(files);
 
-          //  return View(_mapper.Map<List<ZipModel>>(_noteService.GetFiles(files)));
 
 
         }
 
 
-        //public ActionResult Archi()
-        //{
-        //    string path = HostingEnvironment.MapPath("~D/FilesforArchiving/");
-        //    List<string> files = new List<string>();
-        //    DirectoryInfo dir = new DirectoryInfo(path);
-
-        //    files.AddRange(dir.GetFiles().Select(f => f.Name));
-
-        //    return View(files);
-        //}
+    
 
 
 
@@ -93,9 +84,6 @@ namespace ArchiProject.Controllers
         //    string file_type = "application/zip";
         //    return File(fullZipPath, file_type, filename);
         //}
-
-
-
 
 
     }

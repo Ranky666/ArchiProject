@@ -29,23 +29,27 @@ namespace ArchiProject.Controllers
 
         [HttpPost]
 
-
         public ActionResult Index(List<ZipModel> files)
         {
+
+            // отростированный список 
             List<string> filenames = files.Where(m => m.Selected == true).Select(f => f.Name).ToList();
 
+            // дергаетс помощью Guid 
             string filename = Guid.NewGuid().ToString() + ".zip";
 
+            // так, как я понял, выделяется память потока и второй строкой туда запиливается  сжатый файлик
             MemoryStream outputMemStream = new MemoryStream();
             ZipOutputStream zipStream = new ZipOutputStream(outputMemStream);
 
             zipStream.SetLevel(3); // уровень сжатия от 0 до 9
 
+            // в цикле все тоже самое, что и в закоменчином коде, но тут работает, ну почти(
             foreach (string file in filenames)
             {
                 // я понял, что проблема с загрузкой файлов в этой строке, ибо она не видит их в папке
                  
-                FileInfo fi = new FileInfo(Path.GetFileName ("~D/FilesforArchiving" + file));
+                FileInfo fi = new FileInfo("~D/FilesforArchiving" + file);
 
                 string entryName = ZipEntry.CleanName(fi.Name);
                 ZipEntry newEntry = new ZipEntry(entryName);

@@ -38,7 +38,14 @@ namespace ArchiProject.Controllers
 
             byte[] fileBytes = null;
 
-            // у меня опять не то. что нужно (
+
+            // начал придумывать цикл, по идее, надо чтобы он пробегал по списку и закидывал только нужны файлы , но чего то не хвататет тут
+            foreach (var item in files)
+            {
+                files.AddRange(Directory.GetFiles(item,));
+            }
+
+          
             using (MemoryStream memoryStream = new MemoryStream())
             {
                 // создание зип

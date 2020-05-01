@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 
 using System.IO.Compression;
 
+
+
 namespace ArchiProject.Controllers
 {
     //[Authorize]
@@ -19,33 +21,35 @@ namespace ArchiProject.Controllers
         [AllowAnonymous]
         public IActionResult Index()
         {
+           
+            List<ZipModel> files = Directory.GetFiles("D:/FilesforArchiving").Select(Name => new ZipModel { Name = Path.GetFileName(Name) }).ToList();
 
-            List<string> files = Directory.GetFiles("D:/FilesforArchiving").Select(Name => Path.GetFileName(Name)).ToList();
 
             return View(files);
 
         }
 
 
-
         [HttpPost]
 
         public ActionResult Index(List<ZipModel> files)
         {
+            
+           files.Where(m => m.Selected == true ).Select(f =>  f.Name).ToList();
 
-            List<string> filename = files.Where(m => m.Selected == true).Select(f => f.Name).ToList();
 
+
+            foreach (var file in files)
+            {
+                FileInfo fi = new FileInfo("~/FilesforArchiving/" + file);
+
+                if (!fi.Exists)
+                    continue;
+            }
 
             byte[] fileBytes = null;
 
-
-            // начал придумывать цикл, по идее, надо чтобы он пробегал по списку и закидывал только нужны файлы , но чего то не хвататет тут
-            foreach (var item in files)
-            {
-                files.AddRange(Directory.GetFiles(item,));
-            }
-
-          
+ 
             using (MemoryStream memoryStream = new MemoryStream())
             {
                 // создание зип
@@ -69,10 +73,13 @@ namespace ArchiProject.Controllers
                 fileBytes = memoryStream.ToArray();
             }
 
-            // скачивание 
-            Response.Headers.Add("Content-Disposition", "attachment; filename=download.zip");
-            return File(fileBytes, "application/zip");
 
+
+            //// скачивание 
+            //Response.Headers.Add("Content-Disposition", "attachment; filename=download.zip");
+
+            //return File(fileBytes, "application/zip");
+            return View();
         }
 
     }

@@ -21,8 +21,8 @@ namespace ArchiProject.Controllers
         [AllowAnonymous]
         public IActionResult Index()
         {
-           
-            List<ZipModel> files = Directory.GetFiles("D:/FilesforArchiving").Select(Name => new ZipModel { Name = Path.GetFileName(Name) } ).ToList();
+
+            List<ZipModel> files = Directory.GetFiles("D:/FilesforArchiving").Select(Name => new ZipModel { Name = Path.GetFileName(Name) }).ToList();
 
 
             return View(files);
@@ -35,8 +35,7 @@ namespace ArchiProject.Controllers
         public ActionResult Index(List<ZipModel> files)
         {
 
-            files.Where(m => m.Selected == true ).Select(f =>  f.Name).ToList();
-
+            List<ZipModel> filename = files.Where(m => m.Selected == true).ToList();
 
 
             byte[] fileBytes = null;
@@ -47,32 +46,32 @@ namespace ArchiProject.Controllers
                 // создание зип
                 using (ZipArchive zip = new ZipArchive(memoryStream, ZipArchiveMode.Create, true))
                 {
-                    // перебор файлов
-                    foreach (ZipModel f in files)
+                    //перебор файлов
+                    foreach (ZipModel f in filename)
                     {
                         // 
-                        ZipArchiveEntry zipItem = zip.CreateEntry(f.Name + "." + f.Selected);
-                         
-                        using (MemoryStream originalFileMemoryStream = new MemoryStream(f.Selected))
+                        ZipArchiveEntry zipItem = zip.CreateEntry(f.Name + f.Selected);
+                                               
+                        using MemoryStream originalFileMemoryStream = new MemoryStream(f.FileBytes);
+                        using (Stream entryStream = zipItem.Open())
                         {
-                            using (Stream entryStream = zipItem.Open())
-                            {
-                                originalFileMemoryStream.CopyTo(entryStream);
-                            }
+                            originalFileMemoryStream.CopyTo(entryStream);
                         }
                     }
+
+
+                    fileBytes = memoryStream.ToArray();
                 }
-                fileBytes = memoryStream.ToArray();
+
+                //// скачивание 
+                Response.Headers.Add("Content-Disposition", "attachment; filename=download.zip");
+
+                return File(fileBytes, "application/zip");
+
             }
 
-            //// скачивание 
-            Response.Headers.Add("Content-Disposition", "attachment; filename=download.zip");
-
-            return File(fileBytes, "application/zip");
-      
         }
-
     }
-}              
+}             
 
 

@@ -21,16 +21,16 @@
     <form asp-controller="Home" asp-action="Index">
 
 
-        @foreach (var filename in Model)
+        @foreach (var filename in Model )
 
         {
 
-            <p>
-                <input type="checkbox" name="files[@i].Selected" value="true" />
-                <input type="hidden" name="files[@i].Selected" value="false" />
-                <input type="hidden" name="files[@i].Name" value="@filename" />
-                @filename
-            </p>
+        <p>
+            <input type="checkbox" name="[@i].Selected" value="true" />
+            <input type="hidden" name="[@i].Selected" value="false" />
+            <input type="hidden" name="[@i].Name" value="@filename" />
+            @filename
+        </p>
 
 
 
@@ -41,9 +41,6 @@
 
 
     </form>
-
-
-
 
 
 </body>

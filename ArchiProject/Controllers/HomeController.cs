@@ -20,7 +20,7 @@ namespace ArchiProject.Controllers
 
         [AllowAnonymous]
         public IActionResult Index()
-        {
+        { 
 
             List<ZipModel> files = Directory.GetFiles("D:/FilesforArchiving").Select(Name => new ZipModel { Name = Path.GetFileName(Name) }).ToList();
 
